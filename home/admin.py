@@ -25,3 +25,5 @@ admin.site.register(Attendance)
 admin.site.register(facultyDetails)
 
 admin.site.register(message_send)
+
+admin.site.register(sendpdf)

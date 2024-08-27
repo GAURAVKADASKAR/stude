@@ -145,3 +145,18 @@ class message_send(models.Model):
 
     def __str__(self):
         return self.sender
+
+
+class sendpdf(models.Model):
+    title=models.CharField(max_length=200)
+    message=models.TextField()
+    pdf_data=models.FileField(upload_to='pdfs/',default=None,null=True)
+    sender=models.TextField()
+    receiver_branch_id=models.ForeignKey(branches,on_delete=models.SET_NULL,null=True)
+    
+    def __str__(self):
+        return self.title
+
+
+    
+

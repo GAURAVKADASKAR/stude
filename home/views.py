@@ -439,3 +439,27 @@ class receiver_message(APIView):
             serializer=messageserializer(user,many=True)
             return Response({'status':200,'message':serializer.data})
         return Response({'status':404,'message':'login required'})
+
+
+class send_pdf(APIView):
+
+    def post(self,request):
+        serializer=pdfserializer(data=request.data)
+        if not serializer.is_valid():
+            return Response({'status':404,'message':serializer.errors})
+        serializer.save()
+        return Response({'status':200,'message':'Message is successfully sent'})
+
+class receiver_message_pdf(APIView):
+
+    def get(self,request):
+        if request.session.has_key('username'):
+            email=request.session['username']
+            email="0832AD211015"
+            Bid=studentlist.objects.get(rollNumber=email).branchId
+           
+            user=sendpdf.objects.filter(receiver_branch_id=Bid)
+            serializer=pdfserializer(user,many=True)
+            pdf_ids = [pdf['id'] for pdf in serializer.data]
+            return Response({'status':200,'message':serializer.data,'ids': pdf_ids})
+        return Response({'status':404,'message':'login required'})

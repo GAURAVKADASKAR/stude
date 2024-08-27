@@ -83,7 +83,12 @@ class messageserializer(serializers.ModelSerializer):
         model=message_send
         fields="__all__"
         
-    
+
+class pdfserializer(serializers.ModelSerializer):
+    class Meta:
+        model=sendpdf
+        fields="__all__"
+        
 
 
     
