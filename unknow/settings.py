@@ -73,7 +73,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'unknow.wsgi.application'
 
-
+import dj_database_url
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -83,6 +83,8 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+DATABASES['default']=dj_database_url.parse("postgresql://test1_4hrd_user:ik80HtLZsV7OIbjaiuauTnH4Co41kcTd@dpg-cr7jmkjqf0us73bheo80-a.oregon-postgres.render.com/test1_4hrd")
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
