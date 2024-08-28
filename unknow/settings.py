@@ -12,8 +12,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
-import dj_database_url
-from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,18 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config("SECRET_KEY")
+SECRET_KEY = 'django-insecure-nvrqsj-eprneln)a)zs85^-u*z-)=b5av3g3b!f($2@jggc5s5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config("DEBUG",cast=bool)
+DEBUG = True
 
-
-ALLOWED_HOSTS = [
-    'https://private-tmai.onrender.com/',
-    'localhost',
-    '127.0.0.1',
-   
-]
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -81,7 +73,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'unknow.wsgi.application'
 
-
+import dj_database_url
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -92,7 +84,7 @@ DATABASES = {
     }
 }
 
-DATABASES['default']=dj_database_url.parse(config("DATABASE_URL"))
+DATABASES['default']=dj_database_url.parse("postgresql://test1_4hrd_user:ik80HtLZsV7OIbjaiuauTnH4Co41kcTd@dpg-cr7jmkjqf0us73bheo80-a.oregon-postgres.render.com/test1_4hrd")
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -125,7 +117,7 @@ EMAIL_USE_TLS=True
 EMAIL_PORT= 587
 EMAIL_HOST_USER="kadskargaurav@gmail.com"
 EMAIL_HOST_PASSWORD="sfrxgilmxrvxusyi"
-ALLOWED_HOSTS=[]
+ALLOWED_HOSTS=["*"]
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
