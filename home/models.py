@@ -157,6 +157,15 @@ class sendpdf(models.Model):
     def __str__(self):
         return self.title
 
+class messageviewstatus(models.Model):
+    sender=models.CharField(max_length=200)
+    view_status=models.IntegerField(default=0)
+    message_id=models.CharField(max_length=200)
+    receiver=models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.sender333
+
 
     
 

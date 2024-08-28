@@ -444,10 +444,20 @@ class receiver_message(APIView):
 class send_pdf(APIView):
 
     def post(self,request):
+        title=request.data.get('message')
+        sender=request.data.get('sender')
+        receiver=request.data.get('receiver')
         serializer=pdfserializer(data=request.data)
         if not serializer.is_valid():
             return Response({'status':404,'message':serializer.errors})
-        serializer.save()
+        data=serializer.save()
+        id=data.id
+        user=messageviewstatus.objects.create(
+            sender=sender,
+            message_id=id,
+            receiver=receiver
+        )
+        user.save()
         return Response({'status':200,'message':'Message is successfully sent'})
 
 class receiver_message_pdf(APIView):
@@ -456,10 +466,11 @@ class receiver_message_pdf(APIView):
         if request.session.has_key('username'):
             email=request.session['username']
             email="0832AD211015"
-            Bid=studentlist.objects.get(rollNumber=email).branchId
-           
+            Bid=studentlist.objects.get(rollNumber=email).branchId          
             user=sendpdf.objects.filter(receiver_branch_id=Bid)
             serializer=pdfserializer(user,many=True)
             pdf_ids = [pdf['id'] for pdf in serializer.data]
-            return Response({'status':200,'message':serializer.data,'ids': pdf_ids})
+            return Response({'status':200,'message':serializer.data})
         return Response({'status':404,'message':'login required'})
+
+

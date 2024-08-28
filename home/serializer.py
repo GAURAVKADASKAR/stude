@@ -88,6 +88,15 @@ class pdfserializer(serializers.ModelSerializer):
     class Meta:
         model=sendpdf
         fields="__all__"
+    
+
+class messagestatusserializer(serializers.ModelSerializer):
+    class Meta:
+        model=messageviewstatus
+        fields="__all__"
+    
+
+
         
 
 
