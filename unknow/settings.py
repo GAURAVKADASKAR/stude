@@ -29,7 +29,12 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = config("DEBUG",cast=bool)
 
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [
+    'private-tmai.onrender.com',
+    'localhost',
+    '127.0.0.1',
+   
+]
 
 
 # Application definition
