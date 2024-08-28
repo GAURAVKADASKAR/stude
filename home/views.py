@@ -473,4 +473,4 @@ class receiver_message_pdf(APIView):
             return Response({'status':200,'message':serializer.data})
         return Response({'status':404,'message':'login required'})
 
-
+333333333333333333333333333333333333333333333333333333333333333333
