@@ -30,7 +30,7 @@ DEBUG = config("DEBUG",cast=bool)
 
 
 ALLOWED_HOSTS = [
-    'private-tmai.onrender.com',
+    'https://private-tmai.onrender.com/',
     'localhost',
     '127.0.0.1',
    
