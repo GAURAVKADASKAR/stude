@@ -94,7 +94,11 @@ class messagestatusserializer(serializers.ModelSerializer):
     class Meta:
         model=messageviewstatus
         fields="__all__"
-    
+class bookserilaizer(serializers.ModelSerializer):
+    class Meta:
+        model=newbook
+        fields="__all__"
+        
 
 
         

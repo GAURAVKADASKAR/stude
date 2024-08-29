@@ -164,7 +164,17 @@ class messageviewstatus(models.Model):
     receiver=models.CharField(max_length=200)
 
     def __str__(self):
-        return self.sender333
+        return self.sender  
+
+class newbook(models.Model):
+    book_code=models.TextField(max_length=200)
+    book_subject=models.TextField(max_length=200)
+    book_name=models.TextField(max_length=200)
+    auther_name=models.TextField(max_length=200)
+    book_pdf=models.FileField(upload_to='books/',default=True,null=True)
+    def __str__(self):
+        return self.book_code
+
 
 
     

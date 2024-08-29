@@ -36,6 +36,7 @@ urlpatterns = [
     path('receivemessage/',receiver_message.as_view()),
     path('sendpdf/',send_pdf.as_view()),
     path('receivepdf/',receiver_message_pdf.as_view()),
+    path('getavailablebooks/',displayavailablebooks.as_view()),
     
     
 ]

@@ -29,3 +29,5 @@ admin.site.register(message_send)
 admin.site.register(sendpdf)
 
 admin.site.register(messageviewstatus)
+
+admin.site.register(newbook)

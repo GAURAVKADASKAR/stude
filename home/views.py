@@ -25,6 +25,11 @@ class register_user(APIView):
             departmentId=request.data.get('departmentId')
             if User.objects.filter(username=email).exists():
                 return Response({"error": "Email is already taken"}, status=status.HTTP_400_BAD_REQUEST)
+             
+            user = User.objects.create_user(username=email)
+            user.set_password(passcode)
+            user.save()
+            token, created = Token.objects.get_or_create(user=user)
 
             registration_instance = registrationforadmin.objects.create(
                 type=type,
@@ -35,10 +40,7 @@ class register_user(APIView):
             )
 
             registration_instance.save()
-            user = User.objects.create_user(username=email)
-            user.set_password(passcode)
-            user.save()
-            token, created = Token.objects.get_or_create(user=user)
+            
 
         
           
@@ -97,20 +99,23 @@ class register_user(APIView):
         
             if User.objects.filter(username=rollNumber).exists():
                 return Response({"error": "Email is already taken"}, status=status.HTTP_400_BAD_REQUEST)
-
-            registration_instance = registration.objects.create(
-                rollNumber=rollNumber,
-                username=username,
-                email=email,
-                type=type,
-                token=token.key
-            )
-            registration_instance.save()
-
+            
             user = User.objects.create_user(username=rollNumber)
             user.set_password(passcode)
             user.save()
             token, created = Token.objects.get_or_create(user=user)
+
+            registration_instance = registration.objects.create(
+                
+                username=username,
+                email=email,
+                rollNumber=rollNumber,
+                token=token.key
+            )
+
+            registration_instance.save()
+
+            
 
         
             
@@ -174,27 +179,39 @@ class login_user(APIView):
         password=request.data.get('passcode')
         email=request.data.get('email')
         rollNumber=request.data.get('rollNumber')
+     
+        # email="kadskargaurav@gmail.com"
+        # password="123456"
+
         
         if email is None: 
-                user1=registration.objects.get(rollNumber=rollNumber).isActive
-                if(user1==0):
-                    return Response({"status":200,"message":"user is not verified"})
                 user=authenticate(username=rollNumber,password=password)
                 if user is None:
                     return Response({"status":200,"message":"invalid username or password"})
-                request.session['username']=rollNumber
+                else:
+
+                    user1=registration.objects.get(rollNumber=rollNumber).isActive
                 
-                return Response({'status':200,"message":"login"})
+                    if(user1==0):
+                        
+                        return Response({"status":200,"message":"user is not verified"})
+                    else:
+                        request.session['username']=rollNumber
+                        return Response({"status":200,"message":"login"})
         else:
-                user1=registrationforadmin.objects.get(email=email).isActive
-                if(user1==0):
-                    return Response({"status":200,"message":"user is not verified"})
                 user=authenticate(username=email,password=password)
                 if user is None:
                     return Response({"status":200,"message":"invalid username or password"})
-                request.session['username']=email
+                else:
+
+                    user1=registrationforadmin.objects.get(email=email).isActive
                 
-                return Response({'status':200,"message":"login"})
+                    if(user1==0):
+                        
+                        return Response({"status":200,"message":"user is not verified"})
+                    else:
+                        request.session['username']=email
+                        return Response({"status":200,"message":"login"})
 
 
 
@@ -473,4 +490,10 @@ class receiver_message_pdf(APIView):
             return Response({'status':200,'message':serializer.data})
         return Response({'status':404,'message':'login required'})
 
-333333333333333333333333333333333333333333333333333333333333333333
+class displayavailablebooks(APIView):
+    def get(self,request):
+        data=newbook.objects.all()
+        serializer=bookserilaizer(data,many=True)
+        return Response({'status':200,'message':serializer.data})
+
+
