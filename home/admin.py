@@ -31,3 +31,5 @@ admin.site.register(sendpdf)
 admin.site.register(messageviewstatus)
 
 admin.site.register(newbook)
+
+admin.site.register(bookrequest)

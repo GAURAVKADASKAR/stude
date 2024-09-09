@@ -7,6 +7,7 @@ Gender=(("Male","Male"),("Female","Female"),("Other","Other"))
 user_type=(("student","student"),("admin","admin"))
 class registration(models.Model):
     user=models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
+    user_id=models.IntegerField
     rollNumber=models.CharField(max_length=100,primary_key=True)
     username=models.CharField(max_length=100)
     email=models.EmailField(unique=True)
@@ -175,7 +176,16 @@ class newbook(models.Model):
     def __str__(self):
         return self.book_code
 
+class bookrequest(models.Model):
+    rollnumber=models.CharField(max_length=300)
+    branch_id=models.CharField(max_length=300)
+    branch_name=models.CharField(max_length=300)
+    book_name=models.CharField(max_length=200)
+    auther_name=models.CharField(max_length=300)
+    Date_for_request=models.DateTimeField(auto_now_add=True)
 
 
+
+    def __str__(self):
+        return self.rollnumber
     
-

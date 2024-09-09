@@ -497,3 +497,69 @@ class displayavailablebooks(APIView):
         return Response({'status':200,'message':serializer.data})
 
 
+class send_book_request(APIView):
+
+    def post(self,request):
+        branch_id=request.data.get('branch_id')
+        book_name=request.data.get('book_name')
+        branch_name=request.data.get('branch_name')
+        auther_name=request.data.get('auther_name')
+        if request.session.has_key('username'):
+            rollnumber=request.session['username']
+            obj=bookrequest.objects.create(
+                rollnumber=rollnumber,
+                branch_id=branch_id,
+                branch_name=branch_name,
+                book_name=book_name,
+                auther_name=auther_name
+            )
+            obj.save()
+            return Response({'status':200,'message':'request has been sent to the library'})
+        else:
+            return Response({'status':404,'message':'login required'})
+    
+class get_book_request(APIView):
+    
+
+    def get(self,request):
+        obj=bookrequest.objects.all()
+        serializer=bookrequestserializer(obj,many=True)
+        return Response({'status':404,'data':serializer.data})
+    
+
+
+
+class accept_or_reject_bookrequest(APIView):
+
+    def get(self,request,id):
+
+        obj=bookrequest.objects.get(id=id).rollnumber
+        obj1=registration.objects.get(rollNumber=obj)
+        subject= "Verify Your Email for Secret Dashboard Access"
+
+        message=f"""
+
+                Dear {obj1.email},
+
+                Welcome to Secret!
+
+                To complete your registration and activate your account, please verify your email address by clicking the link below:
+                
+
+                If the link above doesn’t work, copy and paste it into your browser’s address bar.
+
+                Once verified, you’ll have full access to your student dashboard and all its features.
+
+                If you didn’t sign up for Secret, please disregard this email.
+
+                Thank you for joining Secret! If you have any questions or need assistance, feel free to contact us at kadskargaurav@gmail.com.
+
+                Best regards,
+                The Secret Team"""
+        from_email = settings.EMAIL_HOST_USER
+        recipient_list = [obj1.email]
+        send_mail(subject, message, from_email, recipient_list)
+
+        return Response({'status':200,'message':obj1.email})
+    
+        

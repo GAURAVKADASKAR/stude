@@ -98,6 +98,12 @@ class bookserilaizer(serializers.ModelSerializer):
     class Meta:
         model=newbook
         fields="__all__"
+    
+
+class bookrequestserializer(serializers.ModelSerializer):
+    class Meta:
+        model=bookrequest
+        fields="__all__"
         
 
 
