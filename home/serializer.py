@@ -104,7 +104,12 @@ class bookrequestserializer(serializers.ModelSerializer):
     class Meta:
         model=bookrequest
         fields="__all__"
-        
+    
+class busdataserializer(serializers.ModelSerializer):
+    class Meta:
+        model=busdetails
+        fields="__all__"
+
 
 
         

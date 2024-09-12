@@ -183,9 +183,19 @@ class bookrequest(models.Model):
     book_name=models.CharField(max_length=200)
     auther_name=models.CharField(max_length=300)
     Date_for_request=models.DateTimeField(auto_now_add=True)
+    status=models.CharField(max_length=200,default="Pending",null=True)
+    
 
 
 
     def __str__(self):
         return self.rollnumber
+
+class busdetails(models.Model):
+    rollnumber=models.TextField(default='',null=True)
+    Bus_number=models.IntegerField()
+    college_shift=models.IntegerField()
+    Boarding_point=models.TextField()
+    Dropping_point=models.TextField()
+
     

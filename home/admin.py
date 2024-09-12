@@ -33,3 +33,5 @@ admin.site.register(messageviewstatus)
 admin.site.register(newbook)
 
 admin.site.register(bookrequest)
+
+admin.site.register(busdetails)

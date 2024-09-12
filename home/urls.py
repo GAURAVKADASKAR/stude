@@ -39,6 +39,9 @@ urlpatterns = [
     path('getavailablebooks/',displayavailablebooks.as_view()),
     path('sendrequestforbook/',send_book_request.as_view()),
     path('getrequestforbook/',get_book_request.as_view()),
-    path('sendacceptemail/<id>/',accept_or_reject_bookrequest.as_view())
+    path('acceptrequest/<id>/',acceptrequest.as_view()),
+    path('rejectrequest/<id>/',rejectrequest.as_view()),
+    path('busdetails/',busdata.as_view()),
+    path('updatebusdetails/<id>/',updatebusdata.as_view()),
     
 ]

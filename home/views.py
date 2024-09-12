@@ -529,10 +529,10 @@ class get_book_request(APIView):
 
 
 
-class accept_or_reject_bookrequest(APIView):
+class acceptrequest(APIView):
 
     def get(self,request,id):
-
+        obj1=bookrequest.objects.filter(id=id).update(status="Accept")
         obj=bookrequest.objects.get(id=id).rollnumber
         obj1=registration.objects.get(rollNumber=obj)
         subject= "Verify Your Email for Secret Dashboard Access"
@@ -561,5 +561,77 @@ class accept_or_reject_bookrequest(APIView):
         send_mail(subject, message, from_email, recipient_list)
 
         return Response({'status':200,'message':obj1.email})
+    
+    
+class rejectrequest(APIView):
+
+    def post(self,request,id):
+        message=request.data.get('message')
+        obj1=bookrequest.objects.filter(id=id).update(status="Reject")
+        obj=bookrequest.objects.get(id=id).rollnumber
+        obj1=registration.objects.get(rollNumber=obj)
+        subject= "Verify Your Email for Secret Dashboard Access"
+
+        message=f"""
+
+                Dear {obj1.email},
+                 
+                reason {message}
+                Welcome to Secret!
+
+                To complete your registration and activate your account, please verify your email address by clicking the link below:
+                
+
+                If the link above doesn’t work, copy and paste it into your browser’s address bar.
+
+                Once verified, you’ll have full access to your student dashboard and all its features.
+
+                If you didn’t sign up for Secret, please disregard this email.
+
+                Thank you for joining Secret! If you have any questions or need assistance, feel free to contact us at kadskargaurav@gmail.com.
+
+                Best regards,
+                The Secret Team"""
+        from_email = settings.EMAIL_HOST_USER
+        recipient_list = [obj1.email]
+        send_mail(subject, message, from_email, recipient_list)
+
+        return Response({'status':200,'message':obj1.email})
+    
+class busdata(APIView):
+
+    def post(self,request):
+        serializer=busdataserializer(data=request.data)
+        if not serializer.is_valid():
+            return Response({"status":404,"message":serializer.errors})
+        serializer.save()
+        
+      
+        return Response({"status":200,'message':"successfull"})
+     
+    def get(self,request):
+        data=busdetails.objects.all()
+        serializer=busdataserializer(data,many=True)
+        return Response({'status':200,'Data':serializer.data})
+    
+
+
+
+class updatebusdata(APIView):
+        
+        def patch(self,request,id):
+
+            obj=busdetails.objects.get(id=id)
+            serializer=busdataserializer(obj,data=request.data,partial=True)
+            if not serializer.is_valid():
+                return Response({"status":404,'message':serializer.errors})
+            serializer.save()
+            return Response({"status":200,'message':"success"})
+
+
+
+    
+        
+
     
         
